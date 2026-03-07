@@ -12,6 +12,17 @@ const UsersModel = {
         });
     },
 
+    // creating a new user - for the sign up task
+    createUser: (username, password, level = 'member') => {
+        return new Promise((resolve, reject) => {
+            db.run("INSERT INTO Users (username, password, level) VALUES (?, ?, ?)", 
+            [username, password, level], (err) => {
+                if (err) reject(err);
+                resolve();
+            });
+        });
+    }
+
     
 };
 
