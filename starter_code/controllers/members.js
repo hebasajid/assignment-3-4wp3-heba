@@ -14,7 +14,10 @@ router.post("/create", async function(req, res)
   // Create the article using the model method, pass req.body as a parameter
   // since it contains the title and content data... the author is hardcoded
   // to "bob" for now, this should be whichever user is logged-in
-  await ArticlesModel.createArticle(req.body,"bob");
+
+  const author = req.session.username; // getting the username of the logged in user from the session instead of hardcoding it
+
+  await ArticlesModel.createArticle(req.body, author);
 
   // Insert a message that an article has successfully been created and
   // display the articles page again
