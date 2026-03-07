@@ -2,6 +2,26 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const mustacheExpress = require('mustache-express');
+const fs = require('fs');
+
+//logging the middleware:
+
+app.use((req, res, next) => {
+    const timestamp = new Date().toISOString(); //date and time of the request
+    const path = req.path; //path of the request - members
+    const ip = req.ip; //ip address of the client making the request
+    const query = JSON.stringify(req.query); //query parameters of the request, if any 
+    const body = JSON.stringify(req.body); //request body, if any (useful for POST requests)
+
+    const logEntry = `${timestamp}, ${path}, ${ip}, ${query}, ${body}\n`;
+
+    //appening to log.txt
+    fs.appendFile('log.txt', logEntry, (err) => {
+        if (err) console.error("Logging error:", err);
+    });
+
+    next(); // moving to the next middleware/route
+});
 
 // Include the mustache engine to help us render our pages
 app.engine("mustache", mustacheExpress());
@@ -100,4 +120,4 @@ app.get(/^(.+)$/, function(req,res) {
 });
 
 // Start the server
-var server = app.listen(8081, function() {console.log("Server listening...");})
+var server = app.listen(8081, function() {console.log("Server listening...");}) //running on http://localhost:8081/home
