@@ -1,6 +1,7 @@
 const express = require('express');
 var router = express.Router()
 const ArticlesModel = require('../models/articles.js')
+const UsersModel = require('../models/users.js'); //importing user model to use its functions for login
 
 // Displays the login page
 router.get("/", async function(req, res)
@@ -18,22 +19,48 @@ router.get("/", async function(req, res)
 router.post("/attemptlogin", async function(req, res)
 {
 
-  // is the username and password OK?
-  if (req.body.username == "bob" &&
-      req.body.password == "test")
-  {
-    // set a session key username to login the user
-    req.session.username = req.body.username;
+  const { username, password } = req.body;
 
-    // re-direct the logged-in user to the members page
-    res.redirect("/members");
-  }
-  else
-  {
-    // if we have an error, reload the login page with an error
-    req.session.login_error = "Invalid username and/or password!";
+  try {
+    const user = await UsersModel.findByUsername(username);
+
+    //checking if the user exists and if the password matches
+    if (user && user.password === password) {
+      req.session.username = user.username; // storing the users info within the session to keep them logged in
+      req.session.level = user.level; 
+
+      // redirection based on user level
+            if (user.level === "member") { //redurecting members to the members page, and editors to the editors page
+                res.redirect("/members");
+            } else if (user.level === "editor") {
+                res.redirect("/editors"); 
+            }
+
+    } else {
+      req.session.login_error = "Invalid username and/or password!"; //  error message in session
+      res.redirect("/login"); // Redirect back to login page on failure
+    }
+  } catch (err) {
+    console.error("Login error:", err);
     res.redirect("/login");
   }
+
+  // // is the username and password OK?
+  // if (req.body.username == "bob" &&
+  //     req.body.password == "test")
+  // {
+  //   // set a session key username to login the user
+  //   req.session.username = req.body.username;
+
+  //   // re-direct the logged-in user to the members page
+  //   res.redirect("/members");
+  // }
+  // else
+  // {
+  //   // if we have an error, reload the login page with an error
+  //   req.session.login_error = "Invalid username and/or password!";
+  //   res.redirect("/login");
+  // }
 
 });
 
