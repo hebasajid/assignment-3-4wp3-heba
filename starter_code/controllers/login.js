@@ -87,7 +87,7 @@ router.post("/signup", async function(req, res)
 
   if (username.length < 6 || password.length < 6) {
         req.TPL.login_error = "Username/password cannot be less than 6 characters in length!";
-        return res.render("login", req.TPL); 
+        return res.render("signup", req.TPL); 
     }
 
     await UsersModel.createUser(username, password, 'member');
