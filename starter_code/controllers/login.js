@@ -93,10 +93,19 @@ router.post("/signup", async function(req, res)
         return res.render("signup", req.TPL); 
     }
 
-    await UsersModel.createUser(username, password, 'member');
+  try {
+    const hashedPassword = await bcrypt.hash(password, saltRounds); //hashing the password before storing it in the database
+
+    await UsersModel.createUser(username, hashedPassword, 'member'); //storing the hashed password in the database instead of the plain text password
     
     req.TPL.message = "User account created! Login to access your account";
     res.render("login", req.TPL);
+  }
+
+    catch (err) { 
+      console.error(err);
+      res.redirectl("/login");
+    }
 });
 
 module.exports = router;
