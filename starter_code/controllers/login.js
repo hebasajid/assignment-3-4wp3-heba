@@ -3,6 +3,9 @@ var router = express.Router()
 const ArticlesModel = require('../models/articles.js')
 const UsersModel = require('../models/users.js'); //importing user model to use its functions for login
 
+const bcrypt = require('bcrypt'); //importing bcrypt for password hashing
+const saltRounds = 10; //number of salt rounds for bcrypt
+
 // Displays the login page
 router.get("/", async function(req, res)
 {
