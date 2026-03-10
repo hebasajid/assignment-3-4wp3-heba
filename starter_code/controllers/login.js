@@ -73,6 +73,13 @@ router.get("/logout", async function(req, res)
   res.redirect("/home");
 });
 
+//dispalying sign up page:
+router.get("/signup", async function(req, res)
+{
+  res.render("signup", req.TPL);
+});
+
+
 //signup a user
 router.post("/signup", async function(req, res)
 {

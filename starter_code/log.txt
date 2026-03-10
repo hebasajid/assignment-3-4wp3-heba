@@ -18,3 +18,5 @@
 2026-03-10T23:34:45.217Z, /login, ::1, {}, undefined
 2026-03-10T23:34:50.900Z, /login, ::1, {}, undefined
 2026-03-10T23:35:14.791Z, /signup, ::1, {}, undefined
+2026-03-10T23:37:53.657Z, /login, ::1, {}, undefined
+2026-03-10T23:37:54.741Z, /signup, ::1, {}, undefined
