@@ -28,44 +28,39 @@ router.post("/attemptlogin", async function(req, res)
     const user = await UsersModel.findByUsername(username);
 
     //checking if the user exists and if the password matches
-    if (user && user.password === password) {
-      req.session.username = user.username; // storing the users info within the session to keep them logged in
-      req.session.level = user.level; 
+    if (user) {
+    // using bcrypt to compare the plaintext password w/  stored hash
+    const match = await bcrypt.compare(password, user.password);
 
-      // redirection based on user level
-            if (user.level === "member") { //redurecting members to the members page, and editors to the editors page
-                res.redirect("/members");
-            } else if (user.level === "editor") {
-                res.redirect("/editors"); 
-            }
+    if (match) {
+        req.session.username = user.username;
+        req.session.level = user.level;
 
+        // redirecting based on level
+        if (user.level === "member") {
+            res.redirect("/members");
+        } else if (user.level === "editor") {
+            res.redirect("/editors");
+        }
     } else {
-      req.session.login_error = "Invalid username and/or password!"; //  error message in session
-      res.redirect("/login"); // Redirect back to login page on failure
+        // passwords didn't match
+        req.session.login_error = "Invalid username and/or password!";
+        res.redirect("/login");
     }
-  } catch (err) {
-    console.error("Login error:", err);
+} else {
+    // user not found
+    req.session.login_error = "Invalid username and/or password!";
     res.redirect("/login");
+}
   }
-
-  // // is the username and password OK?
-  // if (req.body.username == "bob" &&
-  //     req.body.password == "test")
-  // {
-  //   // set a session key username to login the user
-  //   req.session.username = req.body.username;
-
-  //   // re-direct the logged-in user to the members page
-  //   res.redirect("/members");
-  // }
-  // else
-  // {
-  //   // if we have an error, reload the login page with an error
-  //   req.session.login_error = "Invalid username and/or password!";
-  //   res.redirect("/login");
-  // }
-
+  catch (err) { 
+        console.error("Login Error:", err);
+        req.session.login_error = "An internal server error occurred.";
+        res.redirect("/login");
+    }
+  
 });
+
 
 // Logout a user
 // - Destroys the session key username that is used to determine if a user
