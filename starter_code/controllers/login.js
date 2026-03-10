@@ -73,4 +73,20 @@ router.get("/logout", async function(req, res)
   res.redirect("/home");
 });
 
+//signup a user
+router.post("/signup", async function(req, res)
+{
+  const { username, password } = req.body;
+
+  if (username.length < 6 || password.length < 6) {
+        req.TPL.login_error = "Username/password cannot be less than 6 characters in length!";
+        return res.render("login", req.TPL); 
+    }
+
+    await UsersModel.createUser(username, password, 'member');
+    
+    req.TPL.message = "User account created! Login to access your account";
+    res.render("login", req.TPL);
+});
+
 module.exports = router;
