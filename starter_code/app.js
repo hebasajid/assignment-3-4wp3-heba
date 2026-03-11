@@ -3,7 +3,6 @@ const app = express();
 const session = require('express-session');
 const mustacheExpress = require('mustache-express');
 const fs = require('fs');
-const editorRoutes = require('./controllers/editors');
 
 //logging the middleware:
 
@@ -109,7 +108,7 @@ app.use("/articles", require("./controllers/articles"));
 app.use("/members", require("./controllers/members"));
 app.use("/editors", require("./controllers/editors"));
 app.use("/login", require("./controllers/login"));
-app.use("/editors", editorRoutes); // using the editor routes we defined in controllers/editors.js
+app.use("/editors", require("./controllers/editors")); 
 
 // - We route / to redirect to /home by default
 app.get("/", function(req, res) {
