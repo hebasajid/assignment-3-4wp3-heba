@@ -1,17 +1,39 @@
 {{>header}}
-
 {{>navigation}}
 
 <div class="row">
   <div class="leftcolumn">
     <div class="card">
       <h2>Editors</h2>
-      <p>Only editors should be able to view this page!</p>
+      <p>Only editors should be able to see the editors page</strong></p>
+
+      <h3>Users</h3>
+      <table>
+        <tr><th>Username</th><th>Password (Hash)</th><th>Level</th></tr>
+        {{#allUsers}}
+        <tr>
+          <td>{{username}}</td>
+          <td style="font-size: 0.8em; color: gray;">{{password}}</td>
+          <td>{{level}}</td>
+        </tr>
+        {{/allUsers}}
+      </table>
+
+      <hr>
+
+      <h3>All Articles</h3>
+      <table>
+        <tr><th>Title</th><th>Author</th></tr>
+        {{#allArticles}}
+        <tr>
+          <td>{{title}}</td>
+          <td>{{username}}</td>
+        </tr>
+        {{/allArticles}}
+      </table>
     </div>
   </div>
-
   {{>sidebar}}
-
 </div>
 
 {{>footer}}

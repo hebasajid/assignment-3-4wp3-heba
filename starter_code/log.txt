@@ -255,3 +255,8 @@
 2026-03-15T04:58:34.804Z, /login, ::1, {}, undefined
 2026-03-15T04:58:35.879Z, /login/signup, ::1, {}, undefined
 2026-03-15T04:58:39.132Z, /login/signup, ::1, {}, undefined
+2026-03-15T05:15:19.766Z, /login/signup, ::1, {}, undefined
+2026-03-15T05:15:25.509Z, /login/signup, ::1, {}, undefined
+2026-03-15T05:15:26.801Z, /editors, ::1, {}, undefined
+2026-03-15T05:17:28.235Z, /login/attemptlogin, ::1, {}, undefined
+2026-03-15T05:17:28.494Z, /editors, ::1, {}, undefined
