@@ -114,10 +114,10 @@ app.get("/", function(req, res) {
   res.redirect("/home");
 });
 
-// protecting access to the editors page
+//middleware in protecting access to the editors page (requirement 5)
 app.use("/editors", function(req,res,next) {
-  if (req.session.username && req.session.level === 'editor') next();
-  else res.redirect("/login");
+  if (req.session.username && req.session.level === 'editor') next(); //checking if user logged in and is an edditor;
+  else res.redirect("/login"); //otherwise redirecting to login page
 });
 
 // Catch-all router case
