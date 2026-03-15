@@ -1,5 +1,8 @@
 const sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database("database.db");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 db.serialize(function(){
 
