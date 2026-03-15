@@ -21,6 +21,7 @@ async function getAllArticles()
   return results;
 }
 
+
 // Create a new article given a title, content and username
 async function createArticle(article,username)
 {

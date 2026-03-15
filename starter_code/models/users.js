@@ -12,6 +12,15 @@ const UsersModel = {
         });
     },
 
+    getAllUsers: () => { //creating a getAll users method to get list of all users for the editors page table:
+    return new Promise((resolve, reject) => {
+        db.all("SELECT username, password, level FROM Users", [], (err, rows) => {
+            if (err) reject(err);
+            resolve(rows);
+        });
+    });
+},
+
     // creating a new user - for  sign up task
     createUser: (username, password, level = 'member') => {
         return new Promise((resolve, reject) => {
@@ -23,6 +32,7 @@ const UsersModel = {
         });
     }
 
+    
     
 };
 
