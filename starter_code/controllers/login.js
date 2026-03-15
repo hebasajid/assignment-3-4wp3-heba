@@ -84,14 +84,14 @@ router.post("/signup", async function(req, res)
   const { username, password } = req.body;
 
   if (username.length < 6 || password.length < 6) {
-        req.TPL.login_error = "Username/password cannot be less than 6 characters in length!";
+        req.TPL.login_error = "Username/password cannot be less than 6 characters in length and cannot be blank!";
         return res.render("signup", req.TPL); 
     }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, saltRounds); //hashing the password before storing it in the database
+    const hashedPassword = await bcrypt.hash(password, saltRounds); //hashing the password before storing it in db
 
-    await UsersModel.createUser(username, hashedPassword, 'member'); //storing the hashed password in the database instead of the plain text password
+    await UsersModel.createUser(username, hashedPassword, 'member'); //storing the hashed password in the db instead of the plain text 
     
     req.TPL.message = "User account created! Login to access your account";
     res.render("login", req.TPL);

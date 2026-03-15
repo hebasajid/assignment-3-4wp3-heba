@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 async function init() {
-    console.log("Hashing passwords...");
+    console.log("Hashing passwords");
     
     //creating hashes for the passwords of default users:
     const memberHash = await bcrypt.hash('member1', saltRounds);
