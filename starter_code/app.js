@@ -108,11 +108,16 @@ app.use("/articles", require("./controllers/articles"));
 app.use("/members", require("./controllers/members"));
 app.use("/editors", require("./controllers/editors"));
 app.use("/login", require("./controllers/login"));
-app.use("/editors", require("./controllers/editors")); 
 
 // - We route / to redirect to /home by default
 app.get("/", function(req, res) {
   res.redirect("/home");
+});
+
+// protecting access to the editors page
+app.use("/editors", function(req,res,next) {
+  if (req.session.username && req.session.level === 'editor') next();
+  else res.redirect("/login");
 });
 
 // Catch-all router case
